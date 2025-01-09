@@ -8,7 +8,7 @@
 
 ---
 
-## ⚙️ **Version**: 1.0.0 (Public Release - Console Edition)  
+## ⚙️ **Version**: 1.0.0 (Public Release - Console Version)  
 ## 👨‍💻 **Author**: ByteKnight Development Team ([@VoidPool](https://github.com/V0idpool))  
 
 ## 📅 **Release Date**: 01/08/2025  
