@@ -1,4 +1,4 @@
-# 🤖 ByteKnight - Console Version 🤖
+# 🤖 ByteKnight - CLI Discord Bot 🤖
 
 ![ByteKnightVersion](https://img.shields.io/badge/version-1.0.0-brightgreen)
 ![ReleaseDate](https://img.shields.io/badge/Release-01%2F08%2F2025-blue)
@@ -8,7 +8,7 @@
 
 ---
 
-## ⚙️ **Version**: 1.0.0 (Public Release - Console Version)  
+## ⚙️ **Version**: 1.0.0 (Public Release - ByteKnight - CLI)  
 ## 👨‍💻 **Author**: ByteKnight Development Team ([@VoidPool](https://github.com/V0idpool))  
 
 ## 📅 **Release Date**: 01/08/2025  
@@ -73,4 +73,4 @@ ByteKnight is a powerful, multi-purpose Discord bot built on top of **Discord.Ne
 ---
 
 ## 📂 **Check out the GitHub!**  
-[ByteKnight Console Edition Source Code]([https://github.com/V0idpool/ByteKnightConsoleBot](https://github.com/V0idpool/ByteKnight_Console))
+[ByteKnight - CLI Discord Bot Source Code]([https://github.com/V0idpool/ByteKnightConsoleBot](https://github.com/V0idpool/ByteKnight_Console))
