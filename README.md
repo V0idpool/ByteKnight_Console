@@ -73,4 +73,4 @@ ByteKnight is a powerful, multi-purpose Discord bot built on top of **Discord.Ne
 ---
 
 ## 📂 **Check out the GitHub!**  
-[ByteKnight Console Edition Source Code](https://github.com/V0idpool/ByteKnightConsoleBot)
+[ByteKnight Console Edition Source Code]([https://github.com/V0idpool/ByteKnightConsoleBot](https://github.com/V0idpool/ByteKnight_Console))
