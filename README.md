@@ -1,4 +1,4 @@
-# 🤖 ByteKnight - Console Edition 🤖
+# 🤖 ByteKnight - Console Version 🤖
 
 ![ByteKnightVersion](https://img.shields.io/badge/version-1.0.0-brightgreen)
 ![ReleaseDate](https://img.shields.io/badge/Release-01%2F08%2F2025-blue)
