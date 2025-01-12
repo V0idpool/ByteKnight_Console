@@ -67,8 +67,9 @@ ByteKnight is a powerful, multi-purpose Discord bot built on top of **Discord.Ne
 ---
 
 ## 💡 **Support and Donations**  
-- **Donate or Subscribe**: [Buy Me a Coffee](https://buymeacoffee.com/byteknight)  
+- **Donate or Subscribe**: [Buy Me a Coffee](https://buymeacoffee.com/byteknight)
 - **Join the ByteKnight Discord**: [Support, coding help, and feature requests](https://discord.gg/trm9qEzcuw)
+- **Check out the ByteKnight Docs page**: [Official Docs Page](https://mycodeforge.com/docs)
 
 ---
 
