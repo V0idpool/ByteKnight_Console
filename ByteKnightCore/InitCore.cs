@@ -63,6 +63,7 @@ namespace ByteKnightConsole.ByteKnightCore
     {
         Mute.LoadAndScheduleMutesAsync(),
         Warn.RemoveOldWarnings(),
+        Helpers.TOPGGVotes.StartPeriodicVoteCheck(),
         Warn.SetupWarningCleanup()
     };
 

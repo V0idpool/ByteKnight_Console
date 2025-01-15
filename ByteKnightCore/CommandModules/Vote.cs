@@ -55,7 +55,7 @@ namespace ByteKnightConsole.ByteKnightCore.CommandModules
                         .AddField("💡 How to Vote", "Click the link below to vote for BotPulse on top.gg and claim your reward.")
                         .WithThumbnailUrl("https://raw.githubusercontent.com/V0idpool/VoidBot-Discord-Bot-GUI/refs/heads/main/Img/voting-box.png")
                         .WithColor(Color.Gold)
-                        .WithFooter("Thank you for supporting BotPulse! Your vote helps us grow and improve.", "https://i.imgur.com/NF1tYad.png")
+                        .WithFooter("Thank you for supporting BotPulse! Your vote helps us grow and improve.", "https://i.imgur.com/SejD45x.png")
                         .WithTimestamp(DateTime.UtcNow)
                         .Build();
                     var button = new ButtonBuilder
