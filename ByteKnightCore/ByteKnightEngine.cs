@@ -51,12 +51,16 @@ namespace ByteKnightConsole
 {
     public class ByteKnightEngine
     {
-
+        // Ensure TopGG Vote only runs one task at a time.
+        public static readonly SemaphoreSlim _voteCheckSemaphore = new SemaphoreSlim(1, 1);
+        // Timer for the TopGG Vote Check
+        public static System.Threading.Timer _voteCheckTimer;
         public Dictionary<string, UserLevelData> userLevels = new Dictionary<string, UserLevelData>();
         public Dictionary<ulong, DateTime> lastMessageTimes = new Dictionary<ulong, DateTime>();
         // Allow access to _client between MainProgram
         public static DiscordSocketClient _client;
         DiscordSocketClient client = new DiscordSocketClient();
+
         // Allow access to _mclient between MainProgram(If needed, this is here as an example)
         private MongoClient _mclient;
         public static DiscordSocketClient DiscordClient

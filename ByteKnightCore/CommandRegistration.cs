@@ -364,6 +364,10 @@ namespace ByteKnightConsole.ByteKnightCore
                   new SlashCommandBuilder()
             .WithName("reminders")
             .WithDescription("Opt in to get DM Reminders for events, votes, and steal cooldowns 10 min before it happens."),
+
+                  new SlashCommandBuilder()
+            .WithName("vote")
+            .WithDescription("Vote for BotPulse Daily on Top.gg. Support its growth, and get 100 XP every time you vote!"),
             // Add more commands here
 
         };

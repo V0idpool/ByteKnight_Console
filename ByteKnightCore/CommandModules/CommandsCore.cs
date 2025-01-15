@@ -40,6 +40,7 @@ namespace ByteKnightConsole.ByteKnightCore.CommandModules
         private readonly UpdateEmbed _updateEmbedHandler;
         private readonly Verify _verifyHandler;
         private readonly Reminders _remindersHandler;
+        private readonly Vote _voteHandler;
 
         string startupPath = AppDomain.CurrentDomain.BaseDirectory;
         public CommandsCore(DiscordSocketClient client, IMongoDatabase database, ByteKnightEngine botInstance)
@@ -80,6 +81,7 @@ namespace ByteKnightConsole.ByteKnightCore.CommandModules
             _updateEmbedHandler = new UpdateEmbed(botInstance);
             _verifyHandler = new Verify(botInstance);
             _remindersHandler = new Reminders(botInstance);
+            _voteHandler = new Vote(botInstance);
         }
         public async Task HandleInteraction(SocketInteraction interaction)
         {
@@ -209,7 +211,11 @@ namespace ByteKnightConsole.ByteKnightCore.CommandModules
                         break;
                         
                     case "reminders":
-                        await _verifyHandler.CommandHandler(slashCommand);
+                        await _remindersHandler.CommandHandler(slashCommand);
+                        break;
+                             
+                    case "vote":
+                        await _voteHandler.CommandHandler(slashCommand);
                         break;
 
 
