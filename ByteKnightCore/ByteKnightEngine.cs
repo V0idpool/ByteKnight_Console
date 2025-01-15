@@ -1,4 +1,4 @@
-using ByteKnightConsole.ByteKnightCore.CommandModules;
+﻿using ByteKnightConsole.ByteKnightCore.CommandModules;
 using ByteKnightConsole.Helpers;
 using ByteKnightConsole.MongoDBDriver;
 using ByteKnightConsole.MongoDBSchemas;
@@ -20,7 +20,7 @@ using ByteKnightConsole.ByteKnightCore;
 // Description:
 // ByteKnight is a powerful, multi-purpose Discord bot built on top of Discord.Net and MongoDB, presented here in a streamlined console-based application.
 // It offers a robust set of moderation tools (mute, ban, warn), a flexible leveling/XP system, numerous slash commands, automated role assignments, and more.
-// Perfect for server admins who want a feature-rich, easily customizable bot�no GUI overhead required.
+// Perfect for server admins who want a feature-rich, easily customizable bot—no GUI overhead required.
 //
 // Current Features:
 //  - Auto Role assignment on join
@@ -498,6 +498,116 @@ namespace ByteKnightConsole
                         await component.FollowupAsync("An error occurred: Unable to contact the server owner. Please try again later.", ephemeral: true);
                     }
                 }
+                if (component.Data.CustomId.StartsWith("toggle_steal_reminder"))
+                {
+                    var user = component.User;
+
+                    if (user == null)
+                    {
+                        await component.RespondAsync("Could not identify the user.", ephemeral: true);
+                        return;
+                    }
+
+                    var guildId = ((SocketGuildChannel)component.Channel).Guild.Id;
+
+                    // Filter by both User ID and Server ID
+                    var filter = Builders<UserLevelData>.Filter.And(
+                        Builders<UserLevelData>.Filter.Eq(u => u.ID, user.Id),
+                        Builders<UserLevelData>.Filter.Eq(u => u.ServerId, guildId)
+                    );
+
+                    var userLevel = await _userLevelsCollection.Find(filter).FirstOrDefaultAsync();
+
+                    bool stealReminderEnabled = userLevel?.StealReminder ?? false;
+                    bool voteReminderEnabled = userLevel?.VoteReminder ?? false; // Ensure vote reminder state is fetched
+
+                    // Toggle the StealReminder status
+                    var updatedStealReminderStatus = !stealReminderEnabled;
+                    var update = Builders<UserLevelData>.Update.Set(u => u.StealReminder, updatedStealReminderStatus);
+                    await _userLevelsCollection.UpdateOneAsync(filter, update);
+
+                    // Prepare button states
+                    var voteButtonStyle = voteReminderEnabled ? ButtonStyle.Success : ButtonStyle.Secondary;
+                    var voteButtonLabel = voteReminderEnabled ? "Vote Reminder ✅" : "Vote Reminder ❌";
+                    var stealButtonStyle = updatedStealReminderStatus ? ButtonStyle.Success : ButtonStyle.Secondary;
+                    var stealButtonLabel = updatedStealReminderStatus ? "Steal Reminder ✅" : "Steal Reminder ❌";
+
+                    var actionRow = new ComponentBuilder()
+                        .WithButton(voteButtonLabel, "toggle_vote_reminder", voteButtonStyle)
+                        .WithButton(stealButtonLabel, "toggle_steal_reminder", stealButtonStyle);
+
+                    var embed = new EmbedBuilder()
+                        .WithTitle("🔔 Reminder Settings")
+                        .WithDescription("Enable or disable reminders. You'll receive notifications approximately 10 minutes before your selected events begin.")
+                        .WithColor(Color.DarkGreen)
+                        .WithThumbnailUrl("https://raw.githubusercontent.com/V0idpool/VoidBot-Discord-Bot-GUI/main/Img/notice.png")
+                        .WithFooter(footer => footer.Text = "Click the buttons below to toggle reminders.")
+                        .WithTimestamp(DateTime.UtcNow)
+                        .Build();
+
+                    // Modify the original response with updated embed and buttons
+                    await component.ModifyOriginalResponseAsync(msg =>
+                    {
+                        msg.Embed = embed;
+                        msg.Components = actionRow.Build();
+                    });
+                }
+
+
+                if (component.Data.CustomId.StartsWith("toggle_vote_reminder"))
+                {
+                    var user = component.User;
+
+                    if (user == null)
+                    {
+                        await component.RespondAsync("Could not identify the user.", ephemeral: true);
+                        return;
+                    }
+
+                    var guildId = ((SocketGuildChannel)component.Channel).Guild.Id;
+
+                    // Filter by both User ID and Server ID
+                    var filter = Builders<UserLevelData>.Filter.And(
+                        Builders<UserLevelData>.Filter.Eq(u => u.ID, user.Id),
+                        Builders<UserLevelData>.Filter.Eq(u => u.ServerId, guildId)
+                    );
+
+                    var userLevel = await _userLevelsCollection.Find(filter).FirstOrDefaultAsync();
+
+                    bool voteReminderEnabled = userLevel?.VoteReminder ?? false;
+                    bool stealReminderEnabled = userLevel?.StealReminder ?? false; // Ensure steal reminder state is fetched
+
+                    // Toggle the VoteReminder status
+                    var updatedVoteReminderStatus = !voteReminderEnabled;
+                    var update = Builders<UserLevelData>.Update.Set(u => u.VoteReminder, updatedVoteReminderStatus);
+                    await _userLevelsCollection.UpdateOneAsync(filter, update);
+
+                    // Prepare button states
+                    var voteButtonStyle = updatedVoteReminderStatus ? ButtonStyle.Success : ButtonStyle.Secondary;
+                    var voteButtonLabel = updatedVoteReminderStatus ? "Vote Reminder ✅" : "Vote Reminder ❌";
+                    var stealButtonStyle = stealReminderEnabled ? ButtonStyle.Success : ButtonStyle.Secondary;
+                    var stealButtonLabel = stealReminderEnabled ? "Steal Reminder ✅" : "Steal Reminder ❌";
+
+                    var actionRow = new ComponentBuilder()
+                        .WithButton(voteButtonLabel, "toggle_vote_reminder", voteButtonStyle)
+                        .WithButton(stealButtonLabel, "toggle_steal_reminder", stealButtonStyle);
+
+                    var embed = new EmbedBuilder()
+                        .WithTitle("🔔 Reminder Settings")
+                        .WithDescription("Enable or disable reminders. You'll receive notifications approximately 10 minutes before your selected events begin.")
+                        .WithColor(Color.DarkGreen)
+                        .WithThumbnailUrl("https://raw.githubusercontent.com/V0idpool/VoidBot-Discord-Bot-GUI/main/Img/notice.png")
+                        .WithFooter(footer => footer.Text = "Click the buttons below to toggle reminders.")
+                        .WithTimestamp(DateTime.UtcNow)
+                        .Build();
+
+                    // Modify the original response with updated embed and buttons
+                    await component.ModifyOriginalResponseAsync(msg =>
+                    {
+                        msg.Embed = embed;
+                        msg.Components = actionRow.Build();
+                    });
+                }
             }
             catch (Exception ex)
             {
@@ -554,6 +664,15 @@ namespace ByteKnightConsole
                                 component.Data.CustomId.StartsWith("support_button_"))
                         {
                             await HandleButtonInteraction(component); // Handle verification buttons
+                        }
+                        else if (component.Data.CustomId.StartsWith("toggle_vote_reminder"))
+                        {
+                            await HandleButtonInteraction(component); // Handle reminder interactions
+                        }
+
+                        else if (component.Data.CustomId.StartsWith("toggle_steal_reminder"))
+                        {
+                            await HandleButtonInteraction(component); // Handle reminder interactions
                         }
                     }
                 };

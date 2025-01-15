@@ -360,6 +360,10 @@ namespace ByteKnightConsole.ByteKnightCore
                 .WithDescription("The user to manually verify.")
                 .WithType(ApplicationCommandOptionType.User)
                 .WithRequired(true)),
+
+                  new SlashCommandBuilder()
+            .WithName("reminders")
+            .WithDescription("Opt in to get DM Reminders for events, votes, and steal cooldowns 10 min before it happens."),
             // Add more commands here
 
         };
