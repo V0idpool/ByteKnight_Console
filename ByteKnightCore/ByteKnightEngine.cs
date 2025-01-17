@@ -11,6 +11,7 @@ using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using System.Reflection;
 using ByteKnightConsole.ByteKnightCore;
+using ByteKnightConsole.ByteKnightCore.PrefixModules;
 //
 //                                                                                                                                  ByteKnight - Console
 //                                                                                                              Version: 1.0.0 (Public Release - Console Version)
@@ -72,6 +73,12 @@ namespace ByteKnightConsole
         public static string DiscordBotToken;
         public static string startupPath = AppDomain.CurrentDomain.BaseDirectory;
         private readonly string userFile = "UserCFG.ini";
+        // Check if the message author has the required permissions throughout all of ByteKnight, This makes it easier to reference across the entire project.
+        public static bool HasPermission(IUserMessage message)
+        {
+            var user = message.Author as IGuildUser;
+            return user != null && (user.GuildPermissions.Administrator || user.GuildPermissions.ManageGuild);
+        }
         string MongoDBConnectionURL;
         string MongoDBName;
         public static string contentstr;
@@ -146,6 +153,7 @@ namespace ByteKnightConsole
             _mutes = UserSettings(userConfigs, "MuteName");
 
         }
+       
         public async Task LoadAPI()
         {
             // Load API Keys, and names from the INI file
@@ -643,6 +651,8 @@ namespace ByteKnightConsole
             }
             // Inject Command Handler
             var interactionHandler = new CommandsCore(_client, _database, this);
+            // Inject Prefix Command Handler
+            var prefixHandler = new PrefixCore(_client, _database, this);
             try
             {
                 // Define your Gateway intents, messagecachesize, etc.
@@ -655,7 +665,20 @@ namespace ByteKnightConsole
                 await LoadAPI();
                 _client = new DiscordSocketClient(socketConfig);
                 _client.Log += Log;
-                _client.MessageReceived += HandleMessageAsync;
+                _client.MessageReceived += async (message) =>
+                {
+                    if (message is not IUserMessage userMessage || message.Author.IsBot)
+                        return;
+
+                    // XP progression
+                    await HandleMessageAsync(message);
+
+                    // Prefix commands
+                    if (userMessage.Content.StartsWith("!")) // Or your preferred prefix, this can also be set via a dashboard or ini/ENV file
+                    {
+                        await prefixHandler.HandlePrefixInteraction(userMessage);
+                    }
+                };
                 _client.InteractionCreated += interactionHandler.HandleInteraction;
                 _client.UserJoined += UserJoined;
                 _client.Connected += OnClientConnected;
@@ -807,7 +830,7 @@ namespace ByteKnightConsole
             // Check if level increased
             int oldLevel = userLevel.Level;
             int newLevel = userLevel.Level;
-            // Send a message to the channel the user leveled up in
+            // Send a message to the channel the user leveled up in, or set to a Level Up Channel ID
             if (newLevel > oldLevel)
             {
                 await message.Channel.SendMessageAsync($"Congratulations, {message.Author.Mention}! You've reached level {newLevel}!");
