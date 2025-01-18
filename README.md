@@ -22,8 +22,8 @@ ByteKnight is a powerful, multi-purpose Discord bot built on top of **Discord.Ne
 
 ## ⚙️ **Current Features**
 
-- **Auto Role System**  
-  Automatically assigns role upon user joining, can easily be extended to be used for a verification system, Reaction roles, etc.
+- **Verification & Auto Role System**  
+  Automatically assigns role upon user joining and verifying.
 - **Role Management**  
   Includes a fully functional mute system and permission-based commands.
 - **User XP & Level Tracking**  
