@@ -8,7 +8,9 @@ using System.Threading.Tasks;
 
 namespace ByteKnightConsole.MongoDBSchemas
 {
-    // User level data MongoDB Schema
+    /// <summary>
+    /// Represents user level data stored in MongoDB, including XP, message count, and computed level.
+    /// </summary>
     [BsonIgnoreExtraElements]
     public class UserLevelData
     {
@@ -20,7 +22,7 @@ namespace ByteKnightConsole.MongoDBSchemas
         public string AvatarURL { get; set; }  // User Avatar
         public int XP { get; set; }  // XP points
         public int MessageCount { get; set; }  // Number of messages sent
-        public string BackgroundImageUrl { get; set; } // Add this line
+        public string BackgroundImageUrl { get; set; }
         public DateTime? LastVoteRewardTime { get; set; }
         public bool VoteReminder { get; set; }
         public DateTime? LastVoteReminderSent { get; set; }
@@ -30,20 +32,31 @@ namespace ByteKnightConsole.MongoDBSchemas
         public int StealTotal { get; set; }
         public int StolenFromCount { get; set; }
         public int StolenTotal { get; set; }
-        public DateTime? LastStealTime { get; set; } // Add this line
-        public DateTime? AutoStealTime { get; set; } // Add this line
+        public DateTime? LastStealTime { get; set; }
+        public DateTime? AutoStealTime { get; set; }
         public DateTime? DoubleXpExpiry { get; set; }
-        // Additional fields as needed
+        /// <summary>
+        /// Gets the user's level calculated from XP.
+        /// </summary>
         public int Level => CalculateLevel();
-
+        /// <summary>
+        /// Calculates the XP required to reach the next level.
+        /// </summary>
         [BsonIgnore]
         public int XpForNextLevel => CalculateXpRequiredForLevel(Level + 1);  // XP required for next level
-
+        /// <summary>
+        /// Calculates the level based on the current XP.
+        /// </summary>
+        /// <returns>The calculated level.</returns>
         public int CalculateLevel()
         {
             return (int)Math.Floor(0.2 * Math.Sqrt(XP));
         }
-
+        /// <summary>
+        /// Calculates the XP required for a given level.
+        /// </summary>
+        /// <param name="level">The target level.</param>
+        /// <returns>The XP required to reach that level.</returns>
         public int CalculateXpRequiredForLevel(int level)
         {
             return (int)Math.Pow(level / 0.2, 2);

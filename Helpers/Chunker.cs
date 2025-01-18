@@ -5,7 +5,13 @@ namespace ByteKnightConsole.Helpers
 {
     public class Chunker
     {
-        // Helper method to split text into chunks at sentence boundaries
+        /// <summary>
+        /// Splits the given text into chunks that do not exceed the specified maximum size, 
+        /// attempting to split at sentence boundaries.
+        /// </summary>
+        /// <param name="text">The text to split.</param>
+        /// <param name="maxChunkSize">The maximum size for each chunk.</param>
+        /// <returns>An enumerable of text chunks.</returns>
         public static IEnumerable<string> SplitTextIntoChunks(string text, int maxChunkSize)
         {
             var sentences = Regex.Split(text, @"(?<=[.!?])\s*(?=[^a-zA-Z0-9])");

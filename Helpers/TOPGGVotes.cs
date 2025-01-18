@@ -10,10 +10,19 @@ using System.Threading.Tasks;
 
 namespace ByteKnightConsole.Helpers
 {
+    /// <summary>
+    /// Provides methods for interacting with Top.gg votes.
+    /// </summary>
     public class TOPGGVotes
     {
 
-        // Method to check if the user has voted on top.gg
+        /// <summary>
+        /// Checks if a user has voted for the bot on Top.gg.
+        /// </summary>
+        /// <param name="botId">The bot's Top.gg ID.</param>
+        /// <param name="topGGToken">The Top.gg API token.</param>
+        /// <param name="userId">The user ID to check.</param>
+        /// <returns>True if the user has voted; otherwise, false.</returns>
         public static async Task<bool> CheckIfUserVotedOnTopGG(string botId, string topGGToken, ulong userId)
         {
             var url = $"https://top.gg/api/bots/{botId}/check?userId={userId}";
@@ -44,9 +53,9 @@ namespace ByteKnightConsole.Helpers
                 }
             }
         }
-
-      
-
+        /// <summary>
+        /// Starts a periodic check for Top.gg votes every 15 minutes.
+        /// </summary>
         public static async Task StartPeriodicVoteCheck()
         {
             // Initialize the timer to trigger every 15 minutes
@@ -57,6 +66,9 @@ namespace ByteKnightConsole.Helpers
 
             Console.Write("Vote Check Started...");
         }
+        /// <summary>
+        /// Checks if users have voted on Top.gg and rewards them if eligible.
+        /// </summary>
         private static async Task CheckAndRewardVotes()
         {
             // Check if any other instance of CheckAndRewardVotes is currently running

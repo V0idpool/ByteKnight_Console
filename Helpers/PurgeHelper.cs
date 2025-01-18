@@ -9,16 +9,26 @@ using System.Threading.Tasks;
 
 namespace ByteKnightConsole.Helpers
 {
+    /// <summary>
+    /// Helps with purging messages from Discord channels.
+    /// </summary>
     public class PurgeHelper
     {
         private readonly ByteKnightEngine _botInstance;
 
-        // Constructor accepts the bot engine and the GUI form references
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PurgeHelper"/> class.
+        /// </summary>
+        /// <param name="botInstance">The instance of the bot engine.</param>
         public PurgeHelper(ByteKnightEngine botInstance)
         {
             _botInstance = botInstance;
         }
-        // helper method to get the channels id by its name
+        /// <summary>
+        /// Retrieves the ID of a Discord channel by its name.
+        /// </summary>
+        /// <param name="channelName">The name of the channel.</param>
+        /// <returns>The channel ID, or 0 if not found.</returns>
         public async Task<ulong> GetChannelIdByName(string channelName)
         {
 
@@ -33,6 +43,11 @@ namespace ByteKnightConsole.Helpers
 
             return 0;
         }
+        /// <summary>
+        /// Initiates the purge process for a channel identified by name, deleting a specified number of messages.
+        /// </summary>
+        /// <param name="channelName">The name of the channel.</param>
+        /// <param name="messagesToPurge">The number of messages to attempt to purge.</param>
         public async Task HandlePurgeForChannel(string channelName, int messagesToPurge)
         {
             ulong channelId = await GetChannelIdByName(channelName);
@@ -45,7 +60,11 @@ namespace ByteKnightConsole.Helpers
                 Console.WriteLine($"Channel ID not found for the selected channel name: {channelName}", "Channel ID Error");
             }
         }
-
+        /// <summary>
+        /// Initiates the purge process for a channel identified by ID, deleting a specified number of recent messages.
+        /// </summary>
+        /// <param name="channelId">The ID of the channel.</param>
+        /// <param name="messagesToPurge">The number of messages to attempt to purge.</param>
         public async Task HandlePurgeForChannel(ulong channelId, int messagesToPurge)
         {
             var channel = ByteKnightEngine.DiscordClient.GetChannel(channelId) as ISocketMessageChannel;

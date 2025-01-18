@@ -5,7 +5,11 @@ namespace ByteKnightConsole.Helpers
     static class Module1
     {
 
-        // Save the UserCFG.ini file with your settings
+        /// <summary>
+        /// Saves an embedded resource to disk.
+        /// </summary>
+        /// <param name="resourceName">The name of the resource to save.</param>
+        /// <param name="fileName">The filename and path where the resource will be saved.</param>
         public static void SaveToDisk(string resourceName, string fileName)
         {
             // Get a reference to the running application.

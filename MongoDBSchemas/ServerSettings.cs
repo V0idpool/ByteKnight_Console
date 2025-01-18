@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 namespace ByteKnightConsole.MongoDBSchemas
 {
     [BsonIgnoreExtraElements]
+    /// <summary>
+    /// Represents server-specific settings stored in MongoDB.
+    /// </summary>
     public class ServerSettings
     {
         [BsonId]

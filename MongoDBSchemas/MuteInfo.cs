@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace ByteKnightConsole.MongoDBSchemas
 {
+    /// <summary>
+    /// Represents mute information for a user in a guild stored in MongoDB.
+    /// </summary>
     public class MuteInfo
     {
         [BsonId]

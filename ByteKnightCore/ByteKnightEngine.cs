@@ -13,10 +13,10 @@ using System.Reflection;
 using ByteKnightConsole.ByteKnightCore;
 using ByteKnightConsole.ByteKnightCore.PrefixModules;
 //
-//                                                                                                                                  ByteKnight - Console
-//                                                                                                              Version: 1.0.0 (Public Release - Console Version)
+//                                                                                                                                  ByteKnight - CLI
+//                                                                                                              Version: 1.2.0 (Public Release - CLI Version)
 //                                                                                                             Author: ByteKnight Development Team (Voidpool)
-//                                                                                                                           Release Date: [01/08/2025]
+//                                                                                                                           Release Date: [01/18/2025]
 //
 // Description:
 // ByteKnight is a powerful, multi-purpose Discord bot built on top of Discord.Net and MongoDB, presented here in a streamlined console-based application.
@@ -30,6 +30,7 @@ using ByteKnightConsole.ByteKnightCore.PrefixModules;
 //  - Customizable welcome messages and channels
 //  - Full moderation toolkit: warnings, kicks, bans, purge, etc.
 //  - Slash commands (roll, coinflip, 8ball, YouTube search, and more)
+//  - Prefix commands
 //
 // Future Features (Subject to change as development continues):
 //  - Custom embed creation for server admins
@@ -127,10 +128,16 @@ namespace ByteKnightConsole
                 return _instance;
             }
         }
-        // Main entrypoint
+        /// <summary>
+        /// Main entry point of the application. Initializes and runs the bot.
+        /// </summary>
+        /// <param name="args">Command-line arguments.</param>
         static void Main(string[] args)
            => new ByteKnightEngine().RunBotAsync().GetAwaiter().GetResult();
-        
+
+        /// <summary>
+        /// Constructor for ByteKnightEngine. Initializes configuration settings from the UserCFG.ini file.
+        /// </summary>
         public ByteKnightEngine()
         {
          
@@ -153,7 +160,10 @@ namespace ByteKnightConsole
             _mutes = UserSettings(userConfigs, "MuteName");
 
         }
-       
+
+        /// <summary>
+        /// Loads API keys and configuration from the INI file into memory.
+        /// </summary>
         public async Task LoadAPI()
         {
             // Load API Keys, and names from the INI file
@@ -200,6 +210,12 @@ namespace ByteKnightConsole
 
 
         }
+        /// <summary>
+        /// Reads a specific setting from the given INI file.
+        /// </summary>
+        /// <param name="File">Path to the INI file.</param>
+        /// <param name="Identifier">The key identifier to look for.</param>
+        /// <returns>The value associated with the identifier.</returns>
         public string UserSettings(string File, string Identifier) // User Settings handler
         {
             using var S = new System.IO.StreamReader(File);
@@ -214,6 +230,9 @@ namespace ByteKnightConsole
             }
             return Result;
         }
+        /// <summary>
+        /// Starts the bot if it is not currently running.
+        /// </summary>
         public async Task StartBotAsync()
         {
             if (!isBotRunning)
@@ -226,6 +245,9 @@ namespace ByteKnightConsole
 
             }
         }
+        /// <summary>
+        /// Stops the bot if it is currently running.
+        /// </summary>
         public async Task StopBot()
         {
 
@@ -239,11 +261,13 @@ namespace ByteKnightConsole
 
             }
         }
+
         // Flag to check if the bot is in the process of disconnecting
         private static bool isDisconnecting = false;
-
         private static SemaphoreSlim disconnectSemaphore = new SemaphoreSlim(1, 1);
-
+        /// <summary>
+        /// Gracefully disconnects the bot from Discord, logging out and disposing resources.
+        /// </summary>
         public async Task DisconnectBot()
         {
             try
@@ -283,7 +307,9 @@ namespace ByteKnightConsole
                 disconnectSemaphore.Release();
             }
         }
-
+        /// <summary>
+        /// Callback invoked when the Discord client successfully connects. Initializes MongoDB and registers slash commands.
+        /// </summary>
         private async Task OnClientConnected()
         {
             Console.WriteLine("[SYSTEM]  ByteKnight connected to Discord...");
@@ -299,7 +325,10 @@ namespace ByteKnightConsole
             await slashCommandService.RegisterSlashCommandsAsync();
             Console.WriteLine("Slash commands registered.");
         }
-        // Method to handle button interactions
+        /// <summary>
+        /// Handles various button interactions based on their custom IDs.
+        /// </summary>
+        /// <param name="component">The socket component representing the button interaction.</param>
         private async Task HandleButtonInteraction(SocketMessageComponent component)
         {
             try
@@ -631,7 +660,10 @@ namespace ByteKnightConsole
                 }
             }
         }
-                public async Task RunBotAsync()
+        /// <summary>
+        /// Initializes and runs the Discord bot, setting up event handlers and starting the client.
+        /// </summary>
+        public async Task RunBotAsync()
         {
             Console.Title = "ByteKnight Discord Bot";
             string userConfigs = Path.Combine(startupPath, userFile);
@@ -738,7 +770,11 @@ namespace ByteKnightConsole
                 DisconnectBot().GetAwaiter().GetResult();
     }
 }
-
+        /// <summary>
+        /// Logs messages from the Discord client to the console and a file.
+        /// </summary>
+        /// <param name="arg">The log message received from Discord.</param>
+        /// <returns>A completed task.</returns>
         private async Task<Task> Log(LogMessage arg)
         {
             string logText = $"{DateTime.Now} [{arg.Severity}] {arg.Source}: {arg.Exception?.ToString() ?? arg.Message}";
@@ -769,7 +805,10 @@ namespace ByteKnightConsole
             }
             return Task.CompletedTask;
         }
-
+        /// <summary>
+        /// Processes received messages, updates user XP and leveling information accordingly. Can be further extended to handle more cases.
+        /// </summary>
+        /// <param name="arg">The socket message received.</param>
         public async Task HandleMessageAsync(SocketMessage arg)
         {
 
@@ -838,7 +877,11 @@ namespace ByteKnightConsole
             }
 
         }
-
+        /// <summary>
+        /// Extracts an embedded resource from the assembly and writes it to a file.
+        /// </summary>
+        /// <param name="resourceName">Name of the embedded resource.</param>
+        /// <param name="filePath">Destination file path.</param>
         static void ExtractResourceToFile(string resourceName, string filePath)
         {
             try
@@ -862,7 +905,10 @@ namespace ByteKnightConsole
                 Console.WriteLine($"Error extracting resource to file: {ex.Message}");
             }
         }
-
+        /// <summary>
+        /// Handles new user joining the guild by sending welcome and verification messages.
+        /// </summary>
+        /// <param name="user">The guild user who joined.</param>
         private async Task UserJoined(SocketGuildUser user)
         {
             var serverId = user.Guild.Id;
@@ -945,7 +991,7 @@ namespace ByteKnightConsole
             var welcomeMessage = await verifyWelcomeChannel.SendMessageAsync(embed: welcomeEmbed.Build(), components: component);
             var pingMessage = await verifyWelcomeChannel.SendMessageAsync($"{user.Mention}, Please verify your account using the button above.");
 
-            var userContext = new UserContext
+            var userContext = new VerificationContexts
             {
                 Id = ObjectId.GenerateNewId(),
                 ServerId = serverId,
@@ -959,7 +1005,10 @@ namespace ByteKnightConsole
             // Log user information
             LogUserInformation(user);
         }
-        // Log the available user information
+        /// <summary>
+        /// Logs detailed information about a user when they join a server.
+        /// </summary>
+        /// <param name="user">The guild user whose information is logged.</param>
         private void LogUserInformation(SocketGuildUser user)
         {
             Console.WriteLine("==================================================");
@@ -971,72 +1020,13 @@ namespace ByteKnightConsole
             Console.WriteLine($"Joined Server: {user.JoinedAt?.ToString() ?? "Unknown"}");
             Console.WriteLine("==================================================");
         }
-
-        public class UserContext
-        {
-            [BsonId]
-            public ObjectId Id { get; set; }
-            public ulong ServerId { get; set; }
-            public ulong UserId { get; set; }
-            public bool HasVerified { get; set; }
-            public ulong WelcomeMessageId { get; set; }
-            public ulong PingMessageId { get; set; }
-        }
-
-        public static class UserContextStore
-        {
-            private static IMongoCollection<UserContext> _userContextCollection;
-
-            public static void Initialize(IMongoDatabase database)
-            {
-                _userContextCollection = database.GetCollection<UserContext>("UserContexts");
-            }
-
-            // Save user context
-            public static async Task AddOrUpdateAsync(UserContext context)
-            {
-                var filter = Builders<UserContext>.Filter.And(
-                    Builders<UserContext>.Filter.Eq(u => u.ServerId, context.ServerId),
-                    Builders<UserContext>.Filter.Eq(u => u.UserId, context.UserId)
-                );
-
-                await _userContextCollection.ReplaceOneAsync(
-                    filter,
-                    context,
-                    new ReplaceOptions { IsUpsert = true }
-                );
-            }
-
-            // Get user context
-            public static async Task<UserContext> GetAsync(ulong serverId, ulong userId)
-            {
-                var filter = Builders<UserContext>.Filter.And(
-                    Builders<UserContext>.Filter.Eq(u => u.ServerId, serverId),
-                    Builders<UserContext>.Filter.Eq(u => u.UserId, userId)
-                );
-
-                return await _userContextCollection.Find(filter).FirstOrDefaultAsync();
-            }
-
-            // Delete user context (optional)
-            public static async Task DeleteAsync(ulong serverId, ulong userId)
-            {
-                var filter = Builders<UserContext>.Filter.And(
-                    Builders<UserContext>.Filter.Eq(u => u.ServerId, serverId),
-                    Builders<UserContext>.Filter.Eq(u => u.UserId, userId)
-                );
-
-                await _userContextCollection.DeleteOneAsync(filter);
-            }
-        }
-
-        public int RollDice()
-        {
-
-            return new Random().Next(1, 7);
-        }
-
-        // Method to get the top users based on XP
+        /// <summary>
+        /// Retrieves the top users by XP for a given server.
+        /// </summary>
+        /// <param name="database">The MongoDB database instance.</param>
+        /// <param name="serverId">The server's unique identifier.</param>
+        /// <param name="count">The number of top users to retrieve.</param>
+        /// <returns>A list of top users sorted by XP.</returns>
         public static async Task<List<UserLevelData>> GetTopUsers(IMongoDatabase database, ulong serverId, int count)
         {
             if (database == null)
@@ -1075,7 +1065,13 @@ namespace ByteKnightConsole
                 return new List<UserLevelData>();
             }
         }
-        // Gets the users name from the top users list
+        /// <summary>
+        /// Retrieves the top users along with their Discord guild user information.
+        /// </summary>
+        /// <param name="database">The MongoDB database instance.</param>
+        /// <param name="serverId">The server's unique identifier.</param>
+        /// <param name="count">The number of top users to retrieve.</param>
+        /// <returns>A list of key-value pairs pairing SocketGuildUser with their level data.</returns>
         public static async Task<List<KeyValuePair<SocketGuildUser, UserLevelData>>> GetTopUsersWithNamesAsync(IMongoDatabase database, ulong serverId, int count)
         {
             var topUsers = await GetTopUsers(database, serverId, count);

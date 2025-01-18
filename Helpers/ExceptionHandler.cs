@@ -2,6 +2,10 @@
 {
     internal class ExceptionHandler
     {
+        /// <summary>
+        /// Logs detailed information about the provided exception to a log file.
+        /// </summary>
+        /// <param name="ex">The exception to log.</param>
         public static void LogError(Exception ex)
         {
             try
@@ -28,6 +32,11 @@
                 Console.WriteLine("Error logging failed: " + logEx.Message);
             }
         }
+        /// <summary>
+        /// Handles unhandled exceptions by logging details to the console and a file.
+        /// </summary>
+        /// <param name="sender">The source of the unhandled exception.</param>
+        /// <param name="e">The unhandled exception event arguments.</param>
         public static void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e)
         {
             Exception exception = e.ExceptionObject as Exception;

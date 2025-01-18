@@ -3,10 +3,10 @@ using ByteKnightConsole.MongoDBDriver;
 using Discord;
 using System.Net;
 //
-//                                                                                                                                  ByteKnight - Console
-//                                                                                                              Version: 1.0.0 (Public Release - Console Version)
+//                                                                                                                                  ByteKnight - CLI
+//                                                                                                              Version: 1.2.0 (Public Release - CLI Version)
 //                                                                                                             Author: ByteKnight Development Team (Voidpool)
-//                                                                                                                           Release Date: [01/08/2025]
+//                                                                                                                           Release Date: [01/18/2025]
 //
 // Description:
 // ByteKnight is a powerful, multi-purpose Discord bot built on top of Discord.Net and MongoDB, presented here in a streamlined console-based application.
@@ -20,6 +20,7 @@ using System.Net;
 //  - Customizable welcome messages and channels
 //  - Full moderation toolkit: warnings, kicks, bans, purge, etc.
 //  - Slash commands (roll, coinflip, 8ball, YouTube search, and more)
+//  - Prefix commands
 //
 // Future Features (Subject to change as development continues):
 //  - Custom embed creation for server admins

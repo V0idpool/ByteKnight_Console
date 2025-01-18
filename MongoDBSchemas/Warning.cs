@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace ByteKnightConsole.MongoDBSchemas
 {
+    /// <summary>
+    /// Represents a warning issued to a user stored in MongoDB.
+    /// </summary>
     public class Warning
     {
         [BsonId]

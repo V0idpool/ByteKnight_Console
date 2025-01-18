@@ -6,8 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ByteKnightConsole.MongoDBSchemas
-{   
-    // Helper class to deserialize the vote check response from top.gg
+{
+    /// <summary>
+    /// Helper class to deserialize Top.gg vote check responses.
+    /// </summary>
     public class TopGGVoteResponse
     {
         [JsonProperty("voted")]

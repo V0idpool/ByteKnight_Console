@@ -2,10 +2,10 @@
 using ByteKnightConsole.MongoDBSchemas;
 using MongoDB.Driver;
 //
-//                                                                                                                                  ByteKnight - Console
-//                                                                                                              Version: 1.0.0 (Public Release - Console Version)
+//                                                                                                                                  ByteKnight - CLI
+//                                                                                                              Version: 1.2.0 (Public Release - CLI Version)
 //                                                                                                             Author: ByteKnight Development Team (Voidpool)
-//                                                                                                                           Release Date: [01/08/2025]
+//                                                                                                                           Release Date: [01/18/2025]
 //
 // Description:
 // ByteKnight is a powerful, multi-purpose Discord bot built on top of Discord.Net and MongoDB, presented here in a streamlined console-based application.
@@ -19,6 +19,7 @@ using MongoDB.Driver;
 //  - Customizable welcome messages and channels
 //  - Full moderation toolkit: warnings, kicks, bans, purge, etc.
 //  - Slash commands (roll, coinflip, 8ball, YouTube search, and more)
+//  - Prefix commands
 //
 // Future Features (Subject to change as development continues):
 //  - Custom embed creation for server admins
@@ -39,8 +40,15 @@ using MongoDB.Driver;
 //
 namespace ByteKnightConsole.MongoDBDriver
 {
+    /// <summary>
+    /// Provides initialization routines for the bot, including connecting to MongoDB.
+    /// </summary>
     public static class Init
     {
+        /// <summary>
+        /// Initializes the connection to MongoDB and prepares required collections.
+        /// </summary>
+        /// <returns>True if initialization succeeded; otherwise, false.</returns>
         public static async Task<bool> InitializeMongoDBAsync()
         {
             if (string.IsNullOrWhiteSpace(ByteKnightEngine._connectionString) || string.IsNullOrWhiteSpace(ByteKnightEngine._databaseName))

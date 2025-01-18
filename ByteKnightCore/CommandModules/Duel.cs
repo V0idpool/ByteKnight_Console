@@ -12,7 +12,10 @@ namespace ByteKnightConsole.ByteKnightCore.CommandModules
         {
             _botInstance = botInstance;
         }
-
+        public int RollDice()
+        {
+            return new Random().Next(1, 7);
+        }
         public async Task CommandHandler(SocketSlashCommand slashCommand)
         {
             try
@@ -22,8 +25,8 @@ namespace ByteKnightConsole.ByteKnightCore.CommandModules
                 if (challengedUser != null)
                 {
                     IUser challenger = slashCommand.User;
-                    int challengerRoll = _botInstance.RollDice();
-                    int challengedRoll = _botInstance.RollDice();
+                    int challengerRoll = RollDice();
+                    int challengedRoll = RollDice();
                     IUser winner = (challengerRoll > challengedRoll) ? challenger : challengedUser;
 
                     var embed = new EmbedBuilder

@@ -23,6 +23,11 @@ namespace ByteKnightConsole.Helpers
         private string strFilename;
 
         public string Path;
+        /// <summary>
+        /// Appends a message with a timestamp to the specified log file.
+        /// </summary>
+        /// <param name="message">The message to log.</param>
+        /// <param name="logFilePath">The path of the log file.</param>
         private void LogMessage(string message, string logFilePath)
         {
             try
@@ -37,6 +42,14 @@ namespace ByteKnightConsole.Helpers
                 Console.WriteLine($"Error writing to log file: {ex.Message}");
             }
         }
+        /// <summary>
+        /// Reads a value from an INI file for the specified section and key.
+        /// </summary>
+        /// <param name="Section">The INI section.</param>
+        /// <param name="Key">The key within the section.</param>
+        /// <param name="DefaultValue">The default value if the key is not found.</param>
+        /// <param name="BufferSize">The buffer size for reading the value.</param>
+        /// <returns>The value read from the INI file, or "Error" if reading fails.</returns>
         public string ReadValue(string Section, string Key, string DefaultValue = "", int BufferSize = 1024)
         {
             string ReadValueRet = default;
@@ -60,18 +73,33 @@ namespace ByteKnightConsole.Helpers
             return Strings.Left(sTemp, Length);
 
         }
-
+        /// <summary>
+        /// Retrieves a boolean value from the INI file for the specified section and key.
+        /// </summary>
+        /// <param name="Section">The INI section.</param>
+        /// <param name="Key">The key within the section.</param>
+        /// <param name="Default">The default boolean value if the key is not found.</param>
+        /// <returns>The boolean value from the INI file.</returns>
         public bool GetBoolean(string Section, string Key, bool Default)
         {
             // Returns a boolean from your INI file
             return GetPrivateProfileInt(Section, Key, Conversions.ToInteger(Default), strFilename) == 1;
         }
-
+        /// <summary>
+        /// Gets the currently set path for the INI file.
+        /// </summary>
+        /// <returns>The file path.</returns>
         public string GetPath()
         {
             return Path;
         }
-
+        /// <summary>
+        /// Writes a value to the INI file for the specified section and key.
+        /// </summary>
+        /// <param name="Section">The INI section.</param>
+        /// <param name="Key">The key within the section.</param>
+        /// <param name="Value">The value to write.</param>
+        /// <param name="path">The file path to the INI file.</param>
         public void WriteValue(string Section, string Key, string Value, string path)
         {
 
@@ -93,7 +121,11 @@ namespace ByteKnightConsole.Helpers
 
             WritePrivateProfileString(Section, Key, Value, Path);
         }
-
+        /// <summary>
+        /// Deletes a key from the specified section of the INI file.
+        /// </summary>
+        /// <param name="Section">The INI section.</param>
+        /// <param name="Key">The key to delete.</param>
         public void DeleteKey(string Section, string Key)
         {
 
@@ -114,7 +146,10 @@ namespace ByteKnightConsole.Helpers
             string arglpString = null;
             WritePrivateProfileString(Section, Key, arglpString, Path);
         }
-
+        /// <summary>
+        /// Deletes an entire section from the INI file.
+        /// </summary>
+        /// <param name="Section">The section to delete.</param>
         public void DeleteSection(string Section)
         {
 

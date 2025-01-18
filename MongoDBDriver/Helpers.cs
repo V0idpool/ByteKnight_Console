@@ -4,10 +4,15 @@ using MongoDB.Driver;
 
 namespace ByteKnightConsole.MongoDBDriver
 {
-
+    /// <summary>
+    /// Provides helper methods for user levels and server settings interactions with MongoDB.
+    /// </summary>
     public class Helpers
     {
-        // Save a single user level to MongoDB
+        /// <summary>
+        /// Saves a single user's level data to MongoDB.
+        /// </summary>
+        /// <param name="userLevel">The user level data to save.</param>
         public static async Task SaveUserLevel(UserLevelData userLevel)
         {
             var filter = Builders<UserLevelData>.Filter.Eq(u => u.ID, userLevel.ID) &
@@ -16,7 +21,12 @@ namespace ByteKnightConsole.MongoDBDriver
             await ByteKnightEngine._userLevelsCollection.ReplaceOneAsync(filter, userLevel, options);
         }
 
-        // Load a single user level from MongoDB
+        /// <summary>
+        /// Loads a single user's level data from MongoDB.
+        /// </summary>
+        /// <param name="userId">The user's ID.</param>
+        /// <param name="serverId">The server's ID.</param>
+        /// <returns>The user's level data, or null if not found.</returns>
         public static async Task<UserLevelData> LoadUserLevel(ulong userId, ulong serverId)
         {
             var filter = Builders<UserLevelData>.Filter.Eq(u => u.ID, userId) &
@@ -24,7 +34,11 @@ namespace ByteKnightConsole.MongoDBDriver
             return await ByteKnightEngine._userLevelsCollection.Find(filter).FirstOrDefaultAsync();
         }
 
-        // Load all user levels from a specific server
+        /// <summary>
+        /// Loads all user level data for a specific server from MongoDB.
+        /// </summary>
+        /// <param name="serverId">The server's ID.</param>
+        /// <returns>A dictionary mapping user IDs to their level data.</returns>
         public static async Task<Dictionary<string, UserLevelData>> LoadUserLevels(ulong serverId)
         {
             var filter = Builders<UserLevelData>.Filter.Eq(u => u.ServerId, serverId);
@@ -32,7 +46,11 @@ namespace ByteKnightConsole.MongoDBDriver
             return userLevelsList.ToDictionary(u => u.ID.ToString(), u => u);
         }
 
-        // Get Server Settings and Save Server Settings
+        /// <summary>
+        /// Retrieves server settings for a given guild from MongoDB, or creates new defaults if none exist.
+        /// </summary>
+        /// <param name="guildId">The guild's ID.</param>
+        /// <returns>The server settings.</returns>
         public static async Task<ServerSettings> GetServerSettings(ulong guildId)
         {
             var filter = Builders<ServerSettings>.Filter.Eq(s => s.ServerId, guildId);
@@ -61,7 +79,10 @@ namespace ByteKnightConsole.MongoDBDriver
 
             return serverSettings;
         }
-
+        /// <summary>
+        /// Saves the server settings to MongoDB.
+        /// </summary>
+        /// <param name="serverSettings">The server settings to save.</param>
         public static async Task SaveServerSettings(ServerSettings serverSettings)
         {
             var filter = Builders<ServerSettings>.Filter.Eq(s => s.ServerId, serverSettings.ServerId);

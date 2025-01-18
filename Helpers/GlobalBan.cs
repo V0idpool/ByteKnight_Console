@@ -8,7 +8,11 @@ namespace ByteKnightConsole.Helpers
 {
     public static class GlobalBan
     {
-        // Global Ban System (Not used) Left this as a basic example
+        /// <summary>
+        /// Removes an entry corresponding to the given username and user ID from the global ban list file.
+        /// </summary>
+        /// <param name="username">The username to remove from the ban list.</param>
+        /// <param name="userId">The user ID to remove from the ban list.</param>
         public static void RemoveFromGlobalBans(string username, string userId)
         {
             try
@@ -26,7 +30,10 @@ namespace ByteKnightConsole.Helpers
                 Console.WriteLine($"Error removing entry from bans_global.txt: {ex.Message}");
             }
         }
-        // Global Ban System (Not used) Left this as a basic example
+        /// <summary>
+        /// Saves the provided content to the global ban list file if it does not already exist.
+        /// </summary>
+        /// <param name="content">The content to save to the ban list.</param>
         public static void SaveGlobalBanList(string content)
         {
             try
