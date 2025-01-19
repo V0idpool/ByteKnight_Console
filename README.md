@@ -23,7 +23,6 @@ ByteKnight is a powerful, multi-purpose Discord bot built on top of **Discord.Ne
 ## ⚙️ **Current Features**
 
 - **Summary Documentation**
-
   The CLI Framework now includes full summary documentation, providing clear, concise explanations of all commands, functions, methods, and features to help users quickly learn and implement ByteKnight's capabilities.
 - **Verification & Auto Role System**  
   Automatically assigns role upon user joining and verifying.
