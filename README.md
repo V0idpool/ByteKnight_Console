@@ -35,7 +35,7 @@ ByteKnight is a powerful, multi-purpose Discord bot built on top of **Discord.Ne
 - **Slash Commands**  
   Includes everything from rolling dice, coin flips, 8ball, to YouTube searches.
 - **Moderation Toolkit**  
-  Warnings, kicks, bans, message purges, and more to keep your server in check.
+  Warnings, kicks, bans, message purges with filters, and more to keep your server in check.
 - **Welcome Messages**  
   Customizable greetings for newcomers, complete with auto-role assignment.
 
