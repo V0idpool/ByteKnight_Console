@@ -970,7 +970,7 @@ namespace ByteKnightConsole
 
             var verifyButton = new ButtonBuilder
             {
-                Label = "? Verify",
+                Label = "? Begin Verification",
                 CustomId = $"initiate_verify_button_{user.Id}",
                 Style = ButtonStyle.Success
             };
@@ -992,7 +992,6 @@ namespace ByteKnightConsole
 
             var userContext = new VerificationContexts
             {
-                Id = ObjectId.GenerateNewId(),
                 ServerId = serverId,
                 UserId = user.Id,
                 WelcomeMessageId = welcomeMessage.Id,
