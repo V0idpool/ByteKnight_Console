@@ -858,16 +858,15 @@ namespace ByteKnightConsole
                 Builders<UserLevelData>.Update.Inc(u => u.MessageCount, 1),
                 new FindOneAndUpdateOptions<UserLevelData, UserLevelData> { IsUpsert = true, ReturnDocument = ReturnDocument.After }
             );
-
+            // [FIX] Check old Level before DB update
+            int oldLevel = userLevel.Level;
             // Update XP in the database
             userLevel = await _userLevelsCollection.FindOneAndUpdateAsync(
                 Builders<UserLevelData>.Filter.Where(u => u.ID == message.Author.Id && u.ServerId == guildUser.Guild.Id),
                 Builders<UserLevelData>.Update.Inc(u => u.XP, xpAmount),
                 new FindOneAndUpdateOptions<UserLevelData, UserLevelData> { IsUpsert = true, ReturnDocument = ReturnDocument.After }
             );
-
             // Check if level increased
-            int oldLevel = userLevel.Level;
             int newLevel = userLevel.Level;
             // Send a message to the channel the user leveled up in, or set to a Level Up Channel ID
             if (newLevel > oldLevel)
