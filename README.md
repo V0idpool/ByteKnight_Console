@@ -8,10 +8,10 @@
 
 ---
 
-## ⚙️ **Version**: 1.2.0 (Public Release - ByteKnight - CLI)  
+## ⚙️ **Version**: 1.3.0 (Public Release - ByteKnight - CLI)  
 ## 👨‍💻 **Author**: ByteKnight Development Team ([@VoidPool](https://github.com/V0idpool))  
 
-## 📅 **Release Date**: 01/18/2025  
+## 📅 **Release Date**: 01/21/2025  
 
 ---
 
