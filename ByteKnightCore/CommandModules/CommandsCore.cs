@@ -48,7 +48,8 @@ namespace ByteKnightConsole.ByteKnightCore.CommandModules
         private readonly Vote _voteHandler;
         private readonly TheftStats _theftStatsHandler;
         private readonly TheftLeaderboard _theftLeaderboardHandler;
-        string startupPath = AppDomain.CurrentDomain.BaseDirectory;
+        private readonly CustomReminders _customReminderHandler;
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandsCore"/> class.
@@ -99,6 +100,7 @@ namespace ByteKnightConsole.ByteKnightCore.CommandModules
             _voteHandler = new Vote(botInstance);
             _theftStatsHandler = new TheftStats(botInstance);
             _theftLeaderboardHandler = new TheftLeaderboard(botInstance);
+            _customReminderHandler = new CustomReminders(botInstance);
         }
         /// <summary>
         /// Handles incoming interactions from Discord, such as slash commands.
@@ -245,6 +247,10 @@ namespace ByteKnightConsole.ByteKnightCore.CommandModules
                         
                     case "reminders":
                         await _remindersHandler.CommandHandler(slashCommand);
+                        break;
+                                 
+                    case "remindme":
+                        await _customReminderHandler.CommandHandler(slashCommand);
                         break;
                              
                     case "vote":

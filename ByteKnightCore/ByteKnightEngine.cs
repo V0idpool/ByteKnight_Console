@@ -117,6 +117,7 @@ namespace ByteKnightConsole
         public static IMongoCollection<UserLevelData> _userLevelsCollection;
         public static IMongoCollection<MuteInfo> _muteCollection;
         public static IMongoCollection<ServerSettings> _serverSettingsCollection;
+        public static IMongoCollection<CustomReminder> _reminderCollection;
         // Instance access
         public static ByteKnightEngine _instance;
         public static ByteKnightEngine Instance

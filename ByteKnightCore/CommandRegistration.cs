@@ -383,6 +383,20 @@ namespace ByteKnightConsole.ByteKnightCore
             .WithName("reminders")
             .WithDescription("Opt in to get DM Reminders for events, votes, and steal cooldowns 10 min before it happens."),
 
+                    new SlashCommandBuilder()
+    .WithName("remindme")
+    .WithDescription("Set a personal reminder.")
+    .AddOption(new SlashCommandOptionBuilder()
+        .WithName("time")
+        .WithDescription("Time in minutes before the reminder.")
+        .WithType(ApplicationCommandOptionType.Integer) // Time is passed as an integer
+        .WithRequired(true))
+    .AddOption(new SlashCommandOptionBuilder()
+        .WithName("message")
+        .WithDescription("The reminder message.")
+        .WithType(ApplicationCommandOptionType.String) // Message is passed as a string
+        .WithRequired(true)),
+
                   new SlashCommandBuilder()
             .WithName("vote")
             .WithDescription("Vote for BotPulse Daily on Top.gg. Support its growth, and get 100 XP every time you vote!"),

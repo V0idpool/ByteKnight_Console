@@ -65,6 +65,7 @@ namespace ByteKnightConsole.ByteKnightCore
         Mute.LoadAndScheduleMutesAsync(),
         Warn.RemoveOldWarnings(),
         Helpers.TOPGGVotes.StartPeriodicVoteCheck(),
+        CustomReminders.StartCustomRemindersAsync(),
         Warn.SetupWarningCleanup(),
         UpdateUserRoles.PeriodicRoleCheck(),
         ResetMonthlyThefts.Reset(serverId),

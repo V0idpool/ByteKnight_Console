@@ -67,6 +67,7 @@ namespace ByteKnightConsole.MongoDBDriver
                 ByteKnightEngine._userLevelsCollection = ByteKnightEngine._database.GetCollection<UserLevelData>(ByteKnightEngine._userLevels);
                 ByteKnightEngine._muteCollection = ByteKnightEngine._database.GetCollection<MuteInfo>(ByteKnightEngine._mutes);
                 ByteKnightEngine._serverSettingsCollection = ByteKnightEngine._database.GetCollection<ServerSettings>(ByteKnightEngine._serverSettings);
+                ByteKnightEngine._reminderCollection = ByteKnightEngine._database.GetCollection<CustomReminder>("CustomReminders");
                 // Call method to cleanup warnings older than 30 days
                 await Warn.InitializeWarningCleanup();
                 Console.WriteLine("MongoDB client initialized successfully.");
