@@ -1,7 +1,7 @@
 # 🤖 ByteKnight - CLI Discord Bot 🤖
 
 ![ByteKnightVersion](https://img.shields.io/badge/version-1.2.0-brightgreen)
-![ReleaseDate](https://img.shields.io/badge/Release-01%2F18%2F2025-blue)
+![ReleaseDate](https://img.shields.io/badge/Release-01%2F21%2F2025-blue)
 <div align="center">
     <img src="https://i.imgur.com/8wqpy2e.png" alt="ByteKnight Bot Logo" width="600"/>
 </div>
