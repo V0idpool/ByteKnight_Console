@@ -14,7 +14,7 @@ using System.Net;
 // Perfect for server admins who want a feature-rich, easily customizable bot—no GUI overhead required.
 //
 // Current Features:
-//  - Auto Role assignment on join
+//  - Verification & Auto Role assignment on join
 //  - Role management (e.g., mute system) 
 //  - User XP and level tracking, complete with leaderboards
 //  - Customizable welcome messages and channels
@@ -65,7 +65,9 @@ namespace ByteKnightConsole.ByteKnightCore
         Mute.LoadAndScheduleMutesAsync(),
         Warn.RemoveOldWarnings(),
         Helpers.TOPGGVotes.StartPeriodicVoteCheck(),
-        Warn.SetupWarningCleanup()
+        Warn.SetupWarningCleanup(),
+        UpdateUserRoles.PeriodicRoleCheck(),
+        ResetMonthlyThefts.Reset(serverId),
     };
 
             // Utilize this to run periodic timers in non-static classes

@@ -3,6 +3,11 @@ using MongoDB.Driver;
 
 namespace ByteKnightConsole.ByteKnightCore.CommandModules
 {
+    /// <summary>
+    /// Represents the core handler for managing Discord commands in the ByteKnight-CLI Framework.
+    /// This class initializes all individual command handlers, processes incoming interactions,
+    /// and routes slash commands to their respective handlers.
+    /// </summary>
     public class CommandsCore
     {
         private readonly DiscordSocketClient _client;
@@ -41,8 +46,18 @@ namespace ByteKnightConsole.ByteKnightCore.CommandModules
         private readonly Verify _verifyHandler;
         private readonly Reminders _remindersHandler;
         private readonly Vote _voteHandler;
-
+        private readonly TheftStats _theftStatsHandler;
+        private readonly TheftLeaderboard _theftLeaderboardHandler;
         string startupPath = AppDomain.CurrentDomain.BaseDirectory;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandsCore"/> class.
+        /// Sets up the necessary references to the Discord client, MongoDB database, and ByteKnightEngine,
+        /// and initializes individual command handlers for managing bot commands.
+        /// </summary>
+        /// <param name="client">The Discord socket client instance.</param>
+        /// <param name="database">The MongoDB database instance.</param>
+        /// <param name="botInstance">The ByteKnight engine instance.</param>
         public CommandsCore(DiscordSocketClient client, IMongoDatabase database, ByteKnightEngine botInstance)
         {
             // Ensure proper instances are used and shared across project
@@ -82,7 +97,17 @@ namespace ByteKnightConsole.ByteKnightCore.CommandModules
             _verifyHandler = new Verify(botInstance);
             _remindersHandler = new Reminders(botInstance);
             _voteHandler = new Vote(botInstance);
+            _theftStatsHandler = new TheftStats(botInstance);
+            _theftLeaderboardHandler = new TheftLeaderboard(botInstance);
         }
+        /// <summary>
+        /// Handles incoming interactions from Discord, such as slash commands.
+        /// Routes each slash command to its corresponding command handler based on the command name.
+        /// </summary>
+        /// <param name="interaction">The interaction received from Discord.</param>
+        /// <remarks>
+        /// Logs unexpected errors in command handling.
+        /// </remarks>
         public async Task HandleInteraction(SocketInteraction interaction)
         {
             if (interaction is SocketSlashCommand slashCommand)
@@ -200,6 +225,14 @@ namespace ByteKnightConsole.ByteKnightCore.CommandModules
                                     
                     case "steal":
                         await _stealHandler.CommandHandler(slashCommand);
+                        break;
+                              
+                    case "theftstats":
+                        await _theftStatsHandler.CommandHandler(slashCommand);
+                        break;
+                        
+                    case "theftleaderboard":
+                        await _theftLeaderboardHandler.CommandHandler(slashCommand);
                         break;
              
                     case "updatemsg":

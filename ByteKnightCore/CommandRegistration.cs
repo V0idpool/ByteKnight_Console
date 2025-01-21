@@ -13,7 +13,7 @@ using Discord.WebSocket;
 // Perfect for server admins who want a feature-rich, easily customizable bot—no GUI overhead required.
 //
 // Current Features:
-//  - Auto Role assignment on join
+//  - Verification & Verification & Auto Role assignment on join
 //  - Role management (e.g., mute system) 
 //  - User XP and level tracking, complete with leaderboards
 //  - Customizable welcome messages and channels
@@ -40,18 +40,35 @@ using Discord.WebSocket;
 //
 namespace ByteKnightConsole.ByteKnightCore
 {
-    //
-    // TODO: Helper Method to pass Command Registration
-    //
+    /// <summary>
+    /// Handles the registration and management of slash commands for the ByteKnight Discord bot.
+    /// This class facilitates bulk registration of commands, ensuring commands are properly
+    /// defined and updated without requiring bot restarts or manual intervention.
+    /// </summary>
     public class SlashCommandService
     {
         private readonly DiscordSocketClient _client;
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SlashCommandService"/> class.
+        /// </summary>
+        /// <param name="client">The Discord socket client used for bot operations.</param>
         public SlashCommandService(DiscordSocketClient client)
         {
             _client = client;
         }
-
+        /// <summary>
+        /// Registers all slash commands with the Discord API in bulk.
+        /// This method defines a comprehensive list of commands, builds them, and updates their
+        /// registration using Discord's bulk overwrite functionality.
+        /// </summary>
+        /// <remarks>
+        /// - Includes a variety of command categories, such as moderation, utility, user engagement,
+        ///   and admin tools.
+        /// - Supports options for commands, such as specifying users, amounts, durations, and custom
+        ///   messages.
+        /// - Uses `BulkOverwriteGlobalApplicationCommandsAsync` to efficiently manage command updates.
+        /// </remarks>
+        /// <returns>An asynchronous task representing the registration process.</returns>
         public async Task RegisterSlashCommandsAsync()
         {
             // New helper method to cleanup slashcommand registrations
@@ -369,6 +386,20 @@ namespace ByteKnightConsole.ByteKnightCore
                   new SlashCommandBuilder()
             .WithName("vote")
             .WithDescription("Vote for BotPulse Daily on Top.gg. Support its growth, and get 100 XP every time you vote!"),
+
+                  new SlashCommandBuilder()
+            .WithName("theftleaderboard")
+            .WithDescription("Check the Top 10 Thieves! (Resets Monthly)."),
+
+                  new SlashCommandBuilder()
+            .WithName("theftstats")
+            .WithDescription("Check your Theft Stats or another users (Resets Monthly).")
+             .AddOption(new SlashCommandOptionBuilder()
+              .WithName("user")
+            .WithDescription("The users theft stats to check (Leave blank to check your own)")
+            .WithType(ApplicationCommandOptionType.User)
+            .WithRequired(false)),
+
             // Add more commands here
 
         };
