@@ -71,7 +71,7 @@ namespace ByteKnightConsole.ByteKnightCore.CommandModules
             new EmbedFieldBuilder
             {
                 Name = "Video Uploaded On",
-                Value = searchResult.Snippet.PublishedAt?.ToString("MM-dd-yyyy HH:mm tt")
+                Value = searchResult.Snippet.PublishedAtDateTimeOffset?.ToString("MM-dd-yyyy HH:mm tt")
 
             }
         }

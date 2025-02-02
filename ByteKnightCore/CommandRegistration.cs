@@ -3,7 +3,7 @@ using Discord;
 using Discord.WebSocket;
 //
 //                                                                                                                                  ByteKnight - CLI
-//                                                                                                              Version: 1.2.0 (Public Release - CLI Version)
+//                                                                                                              Version: 1.4.0 (Public Release - CLI Version)
 //                                                                                                             Author: ByteKnight Development Team (Voidpool)
 //                                                                                                                           Release Date: [01/18/2025]
 //

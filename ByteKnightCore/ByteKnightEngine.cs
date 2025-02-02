@@ -11,12 +11,12 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using System.Reflection;
-using ByteKnightConsole.ByteKnightCore;
 using ByteKnightConsole.ByteKnightCore.PrefixModules;
 using ByteKnightConsole.ByteKnightCore.InteractionHandlers;
+using System.Text.RegularExpressions;
 //
 //                                                                                                                                  ByteKnight - CLI
-//                                                                                                              Version: 1.2.0 (Public Release - CLI Version)
+//                                                                                                              Version: 1.4.0 (Public Release - CLI Version)
 //                                                                                                             Author: ByteKnight Development Team (Voidpool)
 //                                                                                                                           Release Date: [01/18/2025]
 //
@@ -475,13 +475,15 @@ namespace ByteKnightConsole
             return Task.CompletedTask;
         }
         /// <summary>
-        /// Processes received messages, updates user XP and leveling information accordingly. Can be further extended to handle more cases.
+        /// Processes received messages, updates user XP, handles Translations, and leveling information accordingly. Can be further extended to handle more cases.
         /// </summary>
         /// <param name="arg">The socket message received.</param>
         public async Task HandleMessageAsync(SocketMessage arg)
         {
-
             var message = arg as SocketUserMessage;
+            string translationQuery = message.Content.Trim();
+            string originalMessageContent = null;
+            
             if (message == null || message.Author == null || message.Author.IsBot)
             {
                 // Either the message is null, the author is null, or the author is a bot, so we ignore it
@@ -490,11 +492,55 @@ namespace ByteKnightConsole
             var guildUser = message.Author as SocketGuildUser;
             // Ensure the author is a guild user
             if (guildUser == null) return;
-
-
             string userfile = @"\UserCFG.ini";
             string botNickname = UserSettings(startupPath + userfile, "BotNickname");
             var now = DateTime.UtcNow;
+            // Handle reply to messages :D
+            if (message.Reference != null && message.ReferencedMessage != null)
+            {
+                translationQuery = message.ReferencedMessage.Content.Trim();
+            }
+
+            var translationMatch = Regex.Match(message.Content, @"translate(?: this)?(?: to (\w+))?", RegexOptions.IgnoreCase);
+
+            if (translationMatch.Success)
+            {
+                string targetLanguage = translationMatch.Groups[1].Value.ToLower();
+
+                if (TranslationCore.LanguageCodes.ContainsKey(targetLanguage))
+                {
+                    targetLanguage = TranslationCore.LanguageCodes[targetLanguage];
+                }
+
+                if (string.IsNullOrEmpty(targetLanguage)) targetLanguage = "en";
+
+                string textToTranslate = message.Content.Replace(translationMatch.Value, "").Trim();
+
+                if (message.Reference != null && message.ReferencedMessage != null)
+                {
+                    textToTranslate = message.ReferencedMessage.Content.Trim();
+                }
+
+                if (string.IsNullOrWhiteSpace(textToTranslate))
+                {
+                    await message.Channel.SendMessageAsync("❌ No text found to translate.");
+                    return;
+                }
+
+                string translatedText = await TranslationCore.TranslateTextAsync(textToTranslate, targetLanguage);
+
+                var embed = new EmbedBuilder()
+                {
+                    Title = $"📢 Translated to {targetLanguage.ToUpper()}",
+                    Description = $"**Original:**\n```{textToTranslate}```\n\n**Translated:**\n```{translatedText}```",
+                    Color = new Color(255, 215, 0), // Gold color
+                    Footer = new EmbedFooterBuilder { Text = "┤|ByteKnight Discord Bot|├", IconUrl = "https://i.imgur.com/SejD45x.png" }
+                };
+
+                await message.Channel.SendMessageAsync(embed: embed.Build());
+                return;
+            }
+
             // Load server settings from MongoDB
             var serverSettingsCollection = _database.GetCollection<ServerSettings>(_serverSettings);
             var serverSettings = await serverSettingsCollection

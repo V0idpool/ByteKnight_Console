@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 //
 //                                                                                                                                  ByteKnight - Console
-//                                                                                                              Version: 1.0.0 (Public Release - Console Version)
+//                                                                                                              Version: 1.4.0 (Public Release - Console Version)
 //                                                                                                             Author: ByteKnight Development Team (Voidpool)
 //                                                                                                                           Release Date: [01/08/2025]
 //
